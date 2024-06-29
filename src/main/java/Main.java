@@ -9,22 +9,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("$ ");
-        String input = scanner.nextLine();
-        String[] parts = input.split(" ");
-        String command = parts[0];
-        String[] arguments = Arrays.copyOfRange(parts, 1, parts.length);
+        while (true) {
+            System.out.print("$ ");
+            String input = scanner.nextLine();
+            String[] parts = input.split(" ");
+            String command = parts[0];
+            String[] arguments = Arrays.copyOfRange(parts, 1, parts.length);
 
-        switch (command) {
-            case "exit":
-                System.out.println("Goodbye!");
-                break;
-            case "cd":
-                break;
-            default:
+            switch (command) {
+                case "exit":
+                    System.out.println("Goodbye!");
+                    break;
+                case "cd":
+                    break;
+                default:
 
-                System.out.println(input + ": command not found");
+                    System.out.println(input + ": command not found");
 
+            }
         }
     }
 }
