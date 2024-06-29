@@ -18,7 +18,6 @@ public class Main {
 
             switch (command) {
                 case "exit":
-                    System.out.println("Goodbye!");
                     return;
                 case "cd":
                     break;
