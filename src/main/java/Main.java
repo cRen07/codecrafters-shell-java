@@ -19,7 +19,7 @@ public class Main {
             switch (command) {
                 case "exit":
                     System.out.println("Goodbye!");
-                    break;
+                    return;
                 case "cd":
                     break;
                 default:
