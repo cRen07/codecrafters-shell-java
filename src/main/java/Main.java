@@ -3,14 +3,29 @@
 //If not use the command cd to change the directory to the correct one
 //'cd codecrafters-shell-java' <-- USE THIS COMMAND TO GET TO THE CORRECT DIRECTORY AND TO BE ABLE TO USE GIT COMMANDS
 
-
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.print("$ ");
+        System.out.println("Welcome to the shell");
         Scanner scanner = new Scanner(System.in);
+        System.out.print("$ ");
         String input = scanner.nextLine();
-        System.out.println(input + ": command not found");
+        String[] parts = input.split(" ");
+        String command = parts[0];
+        String[] arguments = Arrays.copyOfRange(parts, 1, parts.length);
+
+        switch (command) {
+            case "exit":
+                System.out.println("Goodbye!");
+                break;
+            case "cd":
+                break;
+            default:
+
+                System.out.println(input + ": command not found");
+
+        }
     }
 }
