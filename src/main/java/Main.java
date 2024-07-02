@@ -38,7 +38,7 @@ public class Main {
                         if (Arrays.asList(builtins).contains(argument)) {
                             System.out.println(argument + " is a shell builtin");
                         } else {
-                            System.out.println(argument + " is not a shell builtin");
+                            System.out.println(argument + " not found");
                         }
                     }
                     break;
