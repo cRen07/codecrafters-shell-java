@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        String[] builtins = {"echo", "exit", "type", "cd"};
+        String[] builtins = {"echo", "exit", "type", "cd", "pwd"};
 
         while (true) {
             System.out.print("$ ");
@@ -72,6 +72,9 @@ public class Main {
                             System.out.println(commandToCheck + ": not found");
                         }
                     }
+                    break;
+                case "pwd":
+                    System.out.println(System.getProperty("user.dir"));
                     break;
                 default:
                     try {
