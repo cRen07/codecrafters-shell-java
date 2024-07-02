@@ -26,7 +26,7 @@ public class Main {
                     for (String arg : arguments){
                         sb.append(arg).append(" ");
                     }
-                    
+                    System.out.println(sb.toString().trim());
                     break;
                 default:
                     System.out.println(input + ": command not found");
