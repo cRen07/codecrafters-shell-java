@@ -1,12 +1,12 @@
 import java.io.File;
 import java.util.Arrays;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-
-        String[] builtins = {"echo", "exit", "type"};
+        String[] builtins = {"echo", "exit", "type", "cd"};
 
         while (true) {
             System.out.print("$ ");
@@ -20,6 +20,16 @@ public class Main {
                     return;
                 case "cd":
                     // Add your "cd" command logic here
+                    if (arguments.length != 1) {
+                        System.out.println("Usage: cd <directory>");
+                    } else {
+                        File dir = new File(arguments[0]);
+                        if (dir.isDirectory()) {
+                            System.setProperty("user.dir", dir.getAbsolutePath());
+                        } else {
+                            System.out.println("cd: " + arguments[0] + ": No such file or directory");
+                        }
+                    }
                     break;
                 case "echo":
                     // Concatenate the arguments
@@ -63,7 +73,17 @@ public class Main {
                     }
                     break;
                 default:
-                    System.out.println(input + ": command not found");
+                    try{
+                        ProcessBuilder pb = new Processbuilder();
+                        pb.command(parts);
+                        pb.inheritIO();
+
+                        Process process = pb.start();
+                        process.waitFor();
+                    } catch(IOException e){
+                        System.out.println(command + ": command not found");
+                    } catch(InterruptedException e){
+                        System.out.println(command + ": execution interrupted");
             }
         }
     }
