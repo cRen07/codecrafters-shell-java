@@ -20,9 +20,15 @@ public class Main {
                 case "exit":
                     return;
                 case "cd":
+                break;
+                case "echo":
+                    StringBuilder sb = new StringBuilder();
+                    for (String arg : arguments){
+                        sb.append(arg).append(" ");
+                    }
+                    
                     break;
                 default:
-
                     System.out.println(input + ": command not found");
 
             }
