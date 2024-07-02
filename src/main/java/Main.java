@@ -1,11 +1,12 @@
 import java.io.File;
-import java.util.Arrays;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+
         String[] builtins = {"echo", "exit", "type", "cd"};
 
         while (true) {
@@ -73,17 +74,20 @@ public class Main {
                     }
                     break;
                 default:
-                    try{
-                        ProcessBuilder pb = new Processbuilder();
+                    try {
+                        // Create a ProcessBuilder
+                        ProcessBuilder pb = new ProcessBuilder();
                         pb.command(parts);
                         pb.inheritIO();
 
+                        // Start the process
                         Process process = pb.start();
                         process.waitFor();
-                    } catch(IOException e){
+                    } catch (IOException e) {
                         System.out.println(command + ": command not found");
-                    } catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         System.out.println(command + ": execution interrupted");
+                    }
             }
         }
     }
