@@ -12,6 +12,7 @@ public class Main {
         while (true) {
             System.out.print("$ ");
             String input = scanner.nextLine();
+            String[] builtins = {"cd", "echo", "exit", "type"};
             String[] parts = input.split(" ");
             String command = parts[0];
             String[] arguments = Arrays.copyOfRange(parts, 1, parts.length);
@@ -27,6 +28,19 @@ public class Main {
                         sb.append(arg).append(" ");
                     }
                     System.out.println(sb.toString().trim());
+                    break;
+
+                case "type":
+                    if (arguments.length == 0) {
+                        System.out.println("type: missing argument");
+                    } else {
+                        String argument = arguments[0];
+                        if (Arrays.asList(builtins).contains(argument)) {
+                            System.out.println(argument + " is a shell builtin");
+                        } else {
+                            System.out.println(argument + " is not a shell builtin");
+                        }
+                    }
                     break;
                 default:
                     System.out.println(input + ": command not found");
