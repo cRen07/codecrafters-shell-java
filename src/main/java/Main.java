@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        String[] builtins = {"echo", "exit", "type", "cd", "pwd"};
+        String[] builtins = { "echo", "exit", "type", "cd", "pwd" };
 
         while (true) {
             System.out.print("$ ");
@@ -33,6 +33,12 @@ public class Main {
 
                         try {
                             File dir;
+                            String homeDir = System.getProperty("user.home");
+
+                            if (newDir.startsWith("~")) {
+                                newDir = newDir.replaceFirst("~", homeDir);
+                            }
+
                             if (newDir.equals(".")) {
                                 // Stay in the current directory
                                 dir = new File(currentDir);
