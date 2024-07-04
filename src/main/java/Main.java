@@ -25,41 +25,44 @@ public class Main {
                 case "exit":
                     return;
                 case "cd":
-                if (arguments.length != 1) {
-                    System.out.println("Usage: cd <directory>");
-                } else {
-                    String currentDir = System.getProperty("user.dir");
-                    String newDir = arguments[0];
-                    
-                    if (newDir.equals(".")) {
-                        // Stay in the current directory
-                        newDir = currentDir;
-                    } else if (newDir.equals("..")) {
-                        // Move to the parent directory
-                        newDir = new File(currentDir).getParent();
-                    } else if (newDir.startsWith("./")) {
-                        // Resolve relative to the current directory
-                        newDir = currentDir + File.separator + newDir.substring(2);
-                    } else if (!new File(newDir).isAbsolute()) {
-                        // Resolve other relative paths
-                        newDir = currentDir + File.separator + newDir;
-                    }
-
-                    File dir = new File(newDir);
-                    if (dir.isDirectory()) {
-                        System.setProperty("user.dir", dir.getAbsolutePath());
+                    if (arguments.length != 1) {
+                        System.out.println("Usage: cd <directory>");
                     } else {
-                        System.out.println("cd: " + arguments[0] + ": No such file or directory");
+                        String currentDir = System.getProperty("user.dir");
+                        String newDir = arguments[0];
+
+                        try {
+                            File dir;
+                            if (newDir.equals(".")) {
+                                // Stay in the current directory
+                                dir = new File(currentDir);
+                            } else if (newDir.equals("..")) {
+                                // Move to the parent directory
+                                dir = new File(currentDir).getParentFile();
+                            } else {
+                                // Resolve relative to the current directory
+                                if (!new File(newDir).isAbsolute()) {
+                                    newDir = currentDir + File.separator + newDir;
+                                }
+                                dir = new File(newDir);
+                            }
+
+                            // Get the canonical path to resolve ./ and ../
+                            if (dir.isDirectory()) {
+                                System.setProperty("user.dir", dir.getCanonicalPath());
+                            } else {
+                                System.out.println("cd: " + arguments[0] + ": No such file or directory");
+                            }
+                        } catch (IOException e) {
+                            System.out.println("cd: " + arguments[0] + ": No such file or directory");
+                        }
                     }
-                }
-                break;
+                    break;
                 case "echo":
-                    // Concatenate the arguments
                     StringBuilder sb = new StringBuilder();
                     for (String arg : arguments) {
                         sb.append(arg).append(" ");
                     }
-                    // Print the result
                     System.out.println(sb.toString().trim());
                     break;
                 case "type":
@@ -95,16 +98,13 @@ public class Main {
                     }
                     break;
                 case "pwd":
-                    System.out.println(System.getProperty("user.dir"));
+                    String currentDirectory = System.getProperty("user.dir");
+                    System.out.println(currentDirectory);
                     break;
                 default:
                     try {
-                        // Create a ProcessBuilder
-                        ProcessBuilder pb = new ProcessBuilder();
-                        pb.command(parts);
+                        ProcessBuilder pb = new ProcessBuilder(parts);
                         pb.inheritIO();
-
-                        // Start the process
                         Process process = pb.start();
                         process.waitFor();
                     } catch (IOException e) {
