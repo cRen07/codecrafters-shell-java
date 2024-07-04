@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        String[] builtins = { "echo", "exit", "type", "cd", "pwd" };
+        String[] builtins = {"echo", "exit", "type", "cd", "pwd"};
 
         while (true) {
             System.out.print("$ ");
@@ -24,7 +24,7 @@ public class Main {
             switch (command) {
                 case "exit":
                     return;
-                    case "cd":
+                case "cd":
                     if (arguments.length != 1) {
                         System.out.println("Usage: cd <directory>");
                     } else {
@@ -116,3 +116,4 @@ public class Main {
         }
     }
 }
+
