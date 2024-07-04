@@ -24,38 +24,32 @@ public class Main {
             switch (command) {
                 case "exit":
                     return;
-                case "cd":
+                    case "cd":
                     if (arguments.length != 1) {
                         System.out.println("Usage: cd <directory>");
                     } else {
-                        String currentDir = System.getProperty("user.dir");
                         String newDir = arguments[0];
+                        String homeDir = System.getProperty("user.home");
+                        
+                        if (newDir.equals("~")) {
+                            newDir = homeDir;
+                        } else if (newDir.startsWith("~" + File.separator)) {
+                            newDir = homeDir + newDir.substring(1);
+                        }
+
+                        File dir;
+                        if (newDir.equals(".")) {
+                            dir = new File(System.getProperty("user.dir"));
+                        } else if (newDir.equals("..")) {
+                            dir = new File(System.getProperty("user.dir")).getParentFile();
+                        } else {
+                            dir = new File(System.getProperty("user.dir"), newDir);
+                        }
 
                         try {
-                            File dir;
-                            String homeDir = System.getProperty("user.home");
-
-                            if (newDir.startsWith("~")) {
-                                newDir = newDir.replaceFirst("~", homeDir);
-                            }
-
-                            if (newDir.equals(".")) {
-                                // Stay in the current directory
-                                dir = new File(currentDir);
-                            } else if (newDir.equals("..")) {
-                                // Move to the parent directory
-                                dir = new File(currentDir).getParentFile();
-                            } else {
-                                // Resolve relative to the current directory
-                                if (!new File(newDir).isAbsolute()) {
-                                    newDir = currentDir + File.separator + newDir;
-                                }
-                                dir = new File(newDir);
-                            }
-
-                            // Get the canonical path to resolve ./ and ../
-                            if (dir.isDirectory()) {
-                                System.setProperty("user.dir", dir.getCanonicalPath());
+                            String canonicalPath = dir.getCanonicalPath();
+                            if (new File(canonicalPath).isDirectory()) {
+                                System.setProperty("user.dir", canonicalPath);
                             } else {
                                 System.out.println("cd: " + arguments[0] + ": No such file or directory");
                             }
