@@ -25,18 +25,34 @@ public class Main {
                 case "exit":
                     return;
                 case "cd":
-                    // Add your "cd" command logic here
-                    if (arguments.length != 1) {
-                        System.out.println("Usage: cd <directory>");
-                    } else {
-                        File dir = new File(arguments[0]);
-                        if (dir.isDirectory()) {
-                            System.setProperty("user.dir", dir.getAbsolutePath());
-                        } else {
-                            System.out.println("cd: " + arguments[0] + ": No such file or directory");
-                        }
+                if (arguments.length != 1) {
+                    System.out.println("Usage: cd <directory>");
+                } else {
+                    String currentDir = System.getProperty("user.dir");
+                    String newDir = arguments[0];
+                    
+                    if (newDir.equals(".")) {
+                        // Stay in the current directory
+                        newDir = currentDir;
+                    } else if (newDir.equals("..")) {
+                        // Move to the parent directory
+                        newDir = new File(currentDir).getParent();
+                    } else if (newDir.startsWith("./")) {
+                        // Resolve relative to the current directory
+                        newDir = currentDir + File.separator + newDir.substring(2);
+                    } else if (!new File(newDir).isAbsolute()) {
+                        // Resolve other relative paths
+                        newDir = currentDir + File.separator + newDir;
                     }
-                    break;
+
+                    File dir = new File(newDir);
+                    if (dir.isDirectory()) {
+                        System.setProperty("user.dir", dir.getAbsolutePath());
+                    } else {
+                        System.out.println("cd: " + arguments[0] + ": No such file or directory");
+                    }
+                }
+                break;
                 case "echo":
                     // Concatenate the arguments
                     StringBuilder sb = new StringBuilder();
