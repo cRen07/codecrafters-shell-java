@@ -24,28 +24,20 @@ public class Main {
             switch (command) {
                 case "exit":
                     return;
-                case "cd":
+                    case "cd":
                     if (arguments.length != 1) {
                         System.out.println("Usage: cd <directory>");
                     } else {
                         String newDir = arguments[0];
-                        String homeDir = System.getProperty("user.home");
-                        
+                        String homeDir = System.getenv("HOME");
+
                         if (newDir.equals("~")) {
                             newDir = homeDir;
                         } else if (newDir.startsWith("~" + File.separator)) {
                             newDir = homeDir + newDir.substring(1);
                         }
 
-                        File dir;
-                        if (newDir.equals(".")) {
-                            dir = new File(System.getProperty("user.dir"));
-                        } else if (newDir.equals("..")) {
-                            dir = new File(System.getProperty("user.dir")).getParentFile();
-                        } else {
-                            dir = new File(System.getProperty("user.dir"), newDir);
-                        }
-
+                        File dir = new File(newDir);
                         try {
                             String canonicalPath = dir.getCanonicalPath();
                             if (new File(canonicalPath).isDirectory()) {
