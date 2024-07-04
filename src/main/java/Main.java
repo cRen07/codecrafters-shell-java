@@ -37,7 +37,18 @@ public class Main {
                             newDir = homeDir + newDir.substring(1);
                         }
 
-                        File dir = new File(newDir);
+                        File dir;
+                        if (newDir.equals(".")) {
+                            dir = new File(System.getProperty("user.dir"));
+                        } else if (newDir.equals("..")) {
+                            dir = new File(System.getProperty("user.dir")).getParentFile();
+                        } else {
+                            dir = new File(newDir);
+                            if (!dir.isAbsolute()) {
+                                dir = new File(System.getProperty("user.dir"), newDir);
+                            }
+                        }
+
                         try {
                             String canonicalPath = dir.getCanonicalPath();
                             if (new File(canonicalPath).isDirectory()) {
