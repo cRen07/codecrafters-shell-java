@@ -24,7 +24,7 @@ public class Main {
             switch (command) {
                 case "exit":
                     return;
-                    case "cd":
+                case "cd":
                     if (arguments.length != 1) {
                         System.out.println("Usage: cd <directory>");
                     } else {
@@ -108,4 +108,3 @@ public class Main {
         }
     }
 }
-
